@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="author" content="Carlos Baquero" />
+    <link rel="stylesheet" href="style.css" />
+    <title>HOW TO COMPARTIR CARPETA WINDOWS LINUX</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <section class="contheader">
+        <div class="cabecera">
+          <p>HOW TO SAMBA</p>
+          <a href="index.html">Inicio</a>
+          <a href="./CreacionMaquinas/index.html">Creacion Maquinas</a>
+          <a href="./ISOWINDOWS/index.html">ISO Windows</a>
+          <a href="./ISOUBUNTU/index.html">ISO UBUNTU</a>
+          <a href="./VBOX/index.html">Virtual Box</a>
+        </div>
+      </section>
+    </header>
+    <main>
+      <article class="contenedor">
+        <section class="elementolados"></section>
+        <section class="elementocentro">
+          <h1>HOW TO COMPARTIR CARPETA WINDOWS LINUX</h1>
+          <p>
+            En esta pagina aprenderas a crear una carpeta compartida entre los
+            sistemas operativos Ubuntu y Windows. Estas carpeta la podras
+            ver,crear capetas y archivo desde Windows.
+          </p>
+          <p>
+            Para esto crearemos dos maquinas virtuales,utilizando VirtualBox,
+            una con Ubuntu y otra con Windows. Y utilizaremos SAMBA para acceder
+            desde Windows a la carpeta. Este tutorial sera detallado y con todos
+            los pasos para que cualquier usuario pueda hacerlo
+            independientemente de su conocimiento sobre el tema.
+          </p>
+          <p>
+            Si no tiene las maquinas virtuales creadas puedes utilizar este
+            tutorial:
+            <a href="./CreacionMaquinas/index.html"
+              >Como crear una maquina virtual</a
+            >
+          </p>
+          <p>Si ya tiene creado las maquinas virtuales siga con el tutorial.</p>
+        </section>
+        <section class="elementolados"></section>
+      </article>
+      <article class="contenedor">
+        <section class="elementoladosh2"></section>
+        <section class="elementocentroh2">
+          <h2>Paso a paso</h2>
+        </section>
+        <section class="elementoladosh2"></section>
+      </article>
+      <article class="contenedor">
+        <section class="elementolados"></section>
+        <section class="elementocentro">
+          <p>
+            Para empezar entraremos en la maquina virtual de Linux y en esta
+            abriremos la terminal de Linux.
+          </p>
+          <p>
+            Se pone <b>su</b> para pasar a root y luego instalamos samba. Con el
+            comando <b>apt install samba</b>
+          </p>
+          <img src="./Imagenes/samba1.PNG" alt="SAMBA1" />
+          <p>
+            Se crea el usuario winuser con <b>adduser winuser</b>, luego se
+            introduce la contraseña que se le quiera poner al usuario y lo demas
+            lo dejamos en default.
+          </p>
+          <img src="./Imagenes/samba2.PNG" alt="SAMBA2" />
+          <p>
+            Dentro de la ruta del usuario nuevo winuser creas una nueva carpeta
+            compartida con <b>mkdir compartida</b> y le pones todos los permisos
+            con <b>chmod 777 compartida</b>
+          </p>
+          <img src="./Imagenes/samba3.PNG" alt="SAMBA3" />
+          <p>Entras como root e instalas vim con <b>apt-get install vim</b>.</p>
+          <img src="./Imagenes/samba4.PNG" alt="SAMBA4" />
+          <p>
+            Como root edtiamos el archivo de configuracion con el siguiente
+            comando <b>nano /etc/samba/smb.conf</b>.
+          </p>
+          <img src="./Imagenes/samba5.PNG" alt="SAMBA5" />
+          <p>
+            Bajamos hasta abajo del archivo y creamos <b>[Compartida]</b>como en
+            la imagen.
+          </p>
+          <img src="./Imagenes/samba6.PNG" alt="SAMBA6" />
+          <p>
+            Ahora se le pone una contraseña al usuario winuser en samba con
+            <b>smbpasswd -a winuser</b>.
+          </p>
+          <img src="./Imagenes/samba7.PNG" alt="SAMBA7" />
+          <p>
+            Luego entramos en la carpeta compartida dentro de winuser y creamos
+            un archivo llamado "archivo-linux" con <b>touch archivo-linux</b>.
+          </p>
+          <img src="./Imagenes/samba8.PNG" alt="SAMBA8" />
+          <p>
+            Luego entramos en el root y reiniciamos el servicio de samba con
+            <b>restart smbd.service</b>.
+          </p>
+          <img src="./Imagenes/samba9.PNG" alt="SAMBA9" />
+          <p>
+            Ahora creamos una red nat para que las dos maquinas se puedan
+            comunicar se hace de la siguiente manera.
+          </p>
+          <p>
+            Primero en el menu de Virtual Box entramos en herramientas y red.
+          </p>
+          <img src="./Imagenes/nat1.png" alt="NAT1" />
+          <p>
+            Luego entramos en Redes NAT y le damos click derecho y en crear...
+          </p>
+          <img src="./Imagenes/nat2.png" alt="NAT2" />
+          <p>
+            Aqui se ve ya creada la Red Nat con su red que es la 10.0.2.0/24
+          </p>
+          <img src="./Imagenes/nat3.png" alt="NAT3" />
+          <p>
+            Luego para conectar la máquina a la red NAT entramos en la
+            configuración de la máquina.
+          </p>
+          <img src="./Imagenes/nat4.png" alt="NAT4" />
+          <p>
+            Dentro de la configuración de la máquina entramos en red y en el
+            adaptador 1 en conectado a: seleccionamos Red Nat y abajo en nombre:
+            seleccionamos la Red Nat que hemos creado en mi caso NatNetwork.
+          </p>
+          <img src="./Imagenes/nat 5.png" alt="NAT5" />
+          <p>
+            Ponemos el comando <b>ip a</b> en el terminal de la máquina de Linux
+            para saber la ip de la maquina virtual de Linux y asi poder entrar
+            desde la maquina virtual de Windows.
+          </p>
+          <img src="./Imagenes/samba10.PNG" alt="SAMBA10" />
+          <p>
+            Ahora entramos en la maquina virtual de Windows y en el buscador
+            ponemos firewall para configurarlo dentro del panel del control.
+          </p>
+          <img src="./Imagenes/samba11.png" alt="SAMBA11" />
+          <p>Luego entramos dentro de la configuracion avanzada</p>
+          <img src="./Imagenes/samba12.png" alt="SAMBA12" />
+          <p>
+            Y en las reglas de salida permitimos Archivos e impresoras
+            compartidos(peticion de entrada y salida) de TCPV4.
+          </p>
+          <img src="./Imagenes/samba13.png" alt="SAMBA13" />
+          <p>
+            Luego buscamos compartido para en el panel de control configurar la
+            configuracion avanzada de uso compartido.
+          </p>
+          <img src="./Imagenes/samba14.png" alt="SAMBA14" />
+          <p>
+            Luego en el perfil invitado o publico activamos la deteccion de
+            redes y el uso comartido de archivos e impresoras.
+          </p>
+          <img src="./Imagenes/samba15.png" alt="SAMBA15" />
+          <p>
+            Luego comprobamos la conexion de las dos maquinas con un ping desde
+            la maquina de Windows a la de Linux.
+          </p>
+          <img src="./Imagenes/samba16.png" alt="SAMBA16" />
+          <p>
+            Luego en ejecutar que se abre con <b>Windows + R</b> ponemos lo
+            siguiente para conectarte a la maquina Linux.
+          </p>
+          <img src="./Imagenes/samba17.png" alt="SAMBA17" />
+          <p>Aqui seleccionamos la carpeta compartida creada en Linux.</p>
+          <img src="./Imagenes/samba18.png" alt="SAMBA18" />
+          <p>
+            Al entrar nos pedira usuario y contraseña que sera winuser y su
+            contraseña
+          </p>
+          <img src="./Imagenes/samba19.png" alt="SAMBA19" />
+          <p>
+            Y aqui aparecera el archivo creado en Linux esta carpeta ya esta
+            compartida y se puede entrar tanto en windows como en Linux.
+          </p>
+          <img src="./Imagenes/samba20.png" alt="SAMBA20" />
+        </section>
+        <section class="elementolados"></section>
+      </article>
+    </main>
+    <footer>
+      <section class="pieDePagina">
+        <p>Carlos Alberto Baquero Dominguez</p>
+        <p>carbaqdom@gmail.com</p>
+      </section>
+    </footer>
+  </body>
+</html>
